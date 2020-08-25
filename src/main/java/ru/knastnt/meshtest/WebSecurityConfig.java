@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.Collection;
 
@@ -21,11 +22,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().disable()
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                .and().formLogin()
-                .and().httpBasic();
+            .cors().disable()
+            .authorizeRequests()
+                .anyRequest()
+                    .authenticated()
+                    .and()
+                .formLogin()
+                    .defaultSuccessUrl("/profiles", true)
+                    .and()
+                .httpBasic()
+                    .and()
+                .logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/exit", "GET"))
+                    .logoutSuccessUrl("/exit-success").permitAll();
     }
 
 

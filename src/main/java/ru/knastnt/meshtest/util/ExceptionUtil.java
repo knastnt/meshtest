@@ -3,6 +3,7 @@ package ru.knastnt.meshtest.util;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import ru.knastnt.meshtest.util.exception.NotFoundException;
 
 import java.util.stream.Collectors;
 
@@ -21,5 +22,12 @@ public class ExceptionUtil {
         return result.getFieldErrors().stream()
                         .map(fe -> String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))
                         .collect(Collectors.joining("; "));
+    }
+
+    public static <T> T checkNotFound(T object, String msg) {
+        if (object == null) {
+            throw new NotFoundException("Не найден объект" + (msg == null ? "" : (" c " + msg)));
+        }
+        return object;
     }
 }

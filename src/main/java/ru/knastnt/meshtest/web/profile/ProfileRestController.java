@@ -4,6 +4,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static ru.knastnt.meshtest.util.ExceptionUtil.checkNotFound;
+
 @RestController
 @RequestMapping(ProfileRestController.REST_URL)
 public class ProfileRestController {
@@ -33,47 +36,10 @@ public class ProfileRestController {
 
     @PostMapping(value = "/set", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity set(@RequestBody @Valid Profile profile) throws DataIntegrityViolationException {
-//        User created = super.create(userTo);
-//        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path(REST_URL).build().toUri();
-//        return ResponseEntity.created(uriOfNewResource).body(created);
-        /*
-        в случае успеха возвращает id записи пользователя
+    public ResponseEntity<Map<String, Long>> set(@RequestBody @Valid Profile profile) throws DataIntegrityViolationException {
 
-        status 200
-        {
-            “idUser”: int
-        }
+        if (profile.getId() != null) throw new DataIntegrityViolationException("Id создаваемого профиля не должен быть указан");
 
-        В случае некорректного email
-        status 400
-
-        {
-            “msg”: string
-        }
-
-        В случае если email уже передавался (реализовать через фильтр)
-        status 403
-
-        {
-            “msg”: string
-        }
-
-         */
-//        if (result.hasErrors()) {
-//            String errorFieldsMsg = result.getFieldErrors().stream()
-//                    .map(fe -> String.format("[%s] %s", fe.getField(), fe.getDefaultMessage()))
-//                    .collect(Collectors.joining("<br>"));
-//
-//            return ResponseEntity.badRequest().body(new ErrorInfo(errorFieldsMsg));
-////            throw new BindException(errorFieldsMsg);
-//        }
-
-
-
-
-//        return ResponseEntity.ok(savedProfile.getId().toString());
         try {
             profile = crudProfileRepository.save(profile);
         }catch (DataIntegrityViolationException e){
@@ -87,34 +53,24 @@ public class ProfileRestController {
 
     @GetMapping(value = "/last", produces = MediaType.APPLICATION_JSON_VALUE)
     public Profile getLast() {
-//        return super.get(authUserId());
-        return null;
+        return checkNotFound(crudProfileRepository.getTopByOrderByIdDesc(), null);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Profile> getAll() {
-//        return super.getAll();
         return crudProfileRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Profile get(@PathVariable long id) {
-//        return super.get(id);
-
-        /*
-
-        status 404
-        в случае если запись не найдена
-        {
-            “msg”: string
-        }
-
-         */
-        return crudProfileRepository.getOne(id);
+//        return checkNotFound(crudProfileRepository.getOne(id), "id = " + id); извлекает прокси, а потом проблемы с сериализацией
+        return checkNotFound(crudProfileRepository.findById(id).orElse(null), "id = " + id);
     }
 
     @PostMapping("/get")
-    public Profile getByEmail(String email){
-        return crudProfileRepository.getByEmailIgnoreCase(email);
+    public Profile getByParam(@RequestBody Map<String, String> param){
+        if (param.size() != 1 || !param.containsKey("email")) throw new RuntimeException("переданы неверные параметры");
+        String email = param.get("email");
+        return checkNotFound(crudProfileRepository.getByEmailIgnoreCase(email), "email = " + email);
     }
 }

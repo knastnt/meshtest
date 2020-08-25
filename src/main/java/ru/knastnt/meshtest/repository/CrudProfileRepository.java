@@ -7,5 +7,6 @@ public interface CrudProfileRepository extends JpaRepository<Profile, Long> {
 
     Profile getByEmailIgnoreCase(String email);
 
+    Profile getTopByOrderByIdDesc();
 
 }

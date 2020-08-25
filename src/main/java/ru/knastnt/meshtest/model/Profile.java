@@ -1,12 +1,13 @@
 package ru.knastnt.meshtest.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -14,14 +15,16 @@ public class Profile extends AbstractBaseEntity {
 
     private String name;
 
-    @Email
-    @Column(unique = true)
+    @Email // однако, пропускает email типа abc@def. Можно использовать @Pattern
+    @Column(unique = true)  // Уникальная колонка в базе
     private String email;
 
-//    @Range(min = 0, max = 130)
+//    @Range(min = 0, max = 130) //Можно поставить верхний порог
     @Min(0)
     private Integer age;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY) //Чтобы JSON не парсился сюда. Да, в принципе и без этого created = new Date()
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER) //Unix epoch time in milliseconds
     private Date created = new Date();
 
 

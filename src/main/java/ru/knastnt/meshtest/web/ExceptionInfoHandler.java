@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.knastnt.meshtest.util.ExceptionUtil;
 import ru.knastnt.meshtest.util.exception.ErrorInfo;
+import ru.knastnt.meshtest.util.exception.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,6 +39,12 @@ public class ExceptionInfoHandler {
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public ErrorInfo validationError(HttpServletRequest req, MethodArgumentNotValidException e) {
         return new ErrorInfo(ExceptionUtil.getErrorResponse(e.getBindingResult()));
+    }
+
+    @ResponseStatus(value = HttpStatus.NOT_FOUND) //404
+    @ExceptionHandler(NotFoundException.class)
+    public ErrorInfo notFoundError(HttpServletRequest req, Exception e) {
+        return new ErrorInfo(ExceptionUtil.getRootCause(e).getMessage());
     }
 
 }

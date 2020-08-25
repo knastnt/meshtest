@@ -1,15 +1,38 @@
 package ru.knastnt.meshtest.util.exception;
 
-public class ErrorInfo {
-    private static ErrorInfo last;
+import java.util.Date;
 
-    public static ErrorInfo getLast() {
+public class ErrorInfo {
+
+    public static class TimedErrorInfo {
+        private final String msg;
+        private final Date created = new Date();
+
+        public TimedErrorInfo(String msg) {
+            this.msg = msg;
+        }
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public Date getCreated() {
+            return created;
+        }
+    }
+
+    private static TimedErrorInfo last;
+
+    public static TimedErrorInfo getLast() {
         return last;
     }
 
+
+
+
     public ErrorInfo(String msg) {
         this.msg = msg;
-        last = this;
+        last = new TimedErrorInfo(msg);
     }
 
     private final String msg;

@@ -47,7 +47,7 @@ public class ProfileRestController {
         }
 
         Map<String, Long> result = new HashMap<>();
-        result.put("userId", profile.getId());
+        result.put("idUser", profile.getId());
         return ResponseEntity.ok(result);
     }
 

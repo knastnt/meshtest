@@ -1,11 +1,15 @@
 package ru.knastnt.meshtest.util.exception;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class ErrorInfo {
 
     public static class TimedErrorInfo {
         private final String msg;
+
+        @JsonFormat(shape = JsonFormat.Shape.NUMBER)
         private final Date created = new Date();
 
         public TimedErrorInfo(String msg) {

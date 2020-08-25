@@ -21,7 +21,7 @@ public class ErrorInfo {
         }
     }
 
-    private static TimedErrorInfo last;
+    private static volatile TimedErrorInfo last;
 
     public static TimedErrorInfo getLast() {
         return last;

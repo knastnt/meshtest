@@ -26,7 +26,7 @@ import static ru.knastnt.meshtest.util.ExceptionUtil.checkNotFound;
 @RestController
 @RequestMapping(ProfileRestController.REST_URL)
 public class ProfileRestController {
-    static final String REST_URL = "/profiles";
+    public static final String REST_URL = "/profiles";
 
     private final CrudProfileRepository crudProfileRepository;
 
@@ -34,7 +34,7 @@ public class ProfileRestController {
         this.crudProfileRepository = crudProfileRepository;
     }
 
-    @PostMapping(value = "/set", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/set", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     public ResponseEntity<Map<String, Long>> set(@RequestBody @Valid Profile profile) throws DataIntegrityViolationException {
 
@@ -51,12 +51,12 @@ public class ProfileRestController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping(value = "/last", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/last")
     public Profile getLast() {
         return checkNotFound(crudProfileRepository.getTopByOrderByIdDesc(), null);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public List<Profile> getAll() {
         return crudProfileRepository.findAll();
     }
@@ -67,9 +67,9 @@ public class ProfileRestController {
         return checkNotFound(crudProfileRepository.findById(id).orElse(null), "id = " + id);
     }
 
-    @PostMapping("/get")
+    @PostMapping(value = "/get", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Profile getByParam(@RequestBody Map<String, String> param){
-        if (param.size() != 1 || !param.containsKey("email")) throw new RuntimeException("переданы неверные параметры");
+        if (param.size() != 1 || !param.containsKey("email")) throw new UnsupportedOperationException("переданы неверные параметры");
         String email = param.get("email");
         return checkNotFound(crudProfileRepository.getByEmailIgnoreCase(email), "email = " + email);
     }

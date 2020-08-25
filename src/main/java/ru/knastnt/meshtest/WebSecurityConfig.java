@@ -5,16 +5,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import java.util.Collection;
+import ru.knastnt.meshtest.web.RootController;
+import ru.knastnt.meshtest.web.profile.ProfileRestController;
 
 @Configuration
 @EnableWebSecurity
@@ -28,13 +26,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticated()
                     .and()
                 .formLogin()
-                    .defaultSuccessUrl("/profiles", true)
+                    .defaultSuccessUrl(ProfileRestController.REST_URL, true)
                     .and()
                 .httpBasic()
                     .and()
                 .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/exit", "GET"))
-                    .logoutSuccessUrl("/exit-success").permitAll();
+                    .logoutSuccessUrl(RootController.EXIT_SUCCESS_URL).permitAll();
     }
 
 

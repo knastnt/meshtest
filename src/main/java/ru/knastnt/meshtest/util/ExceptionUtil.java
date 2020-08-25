@@ -1,7 +1,6 @@
 package ru.knastnt.meshtest.util;
 
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import ru.knastnt.meshtest.util.exception.NotFoundException;
 

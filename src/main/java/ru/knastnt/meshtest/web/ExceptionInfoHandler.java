@@ -17,8 +17,8 @@ import ru.knastnt.meshtest.util.exception.NotFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 
-@RestControllerAdvice(annotations = RestController.class)
-@Order(Ordered.LOWEST_PRECEDENCE - 100)  //Приоритет немного выше самого низкого для всех хэндлеров
+@RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE + 5)  //Приоритет немного ниже самого высокого для всех хэндлеров
 public class ExceptionInfoHandler {
 
     @Order //Самый низкий приоритет

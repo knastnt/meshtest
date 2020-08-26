@@ -6,12 +6,22 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import java.util.Date;
 
 @Entity
-public class Profile extends AbstractBaseEntity {
+public class Profile {
+
+    @Id
+    @GeneratedValue
+
+    //Когда будет функционал Update, то нужно будет это убрать. Сейчас это тут только для того чтобы Swagger в POST set
+    // не показывал id. Похоже иначе его заставить это делать нельзя (https://github.com/springfox/springfox/issues/895)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    protected Long id;
 
     private String name;
 
@@ -27,7 +37,13 @@ public class Profile extends AbstractBaseEntity {
     @JsonFormat(shape = JsonFormat.Shape.NUMBER) //Unix epoch time in milliseconds
     private Date created = new Date();
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public Long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;

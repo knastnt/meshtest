@@ -38,7 +38,7 @@ public class ProfileRestController {
     @ResponseStatus(value = HttpStatus.OK)
     public ResponseEntity<Map<String, Long>> set(@RequestBody @Valid Profile profile) throws DataIntegrityViolationException {
 
-        if (profile.getId() != null) throw new DataIntegrityViolationException("Id создаваемого профиля не должен быть указан");
+//        if (profile.getId() != null) throw new DataIntegrityViolationException("Id создаваемого профиля не должен быть указан");
 
         try {
             profile = crudProfileRepository.save(profile);

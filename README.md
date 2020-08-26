@@ -2,11 +2,17 @@
 
 [![demo](https://raw.githubusercontent.com/knastnt/meshtest/master/demo.png)](https://meshtest-knastnt.herokuapp.com/)
 
-<p align="center">
+---
+
+
   <strong>
-    <a href="https://meshtest-knastnt.herokuapp.com/" target="_blank">Показать Демо (login:user password:1)</a> | <a href="https://github.com/knastnt/meshtest/archive/v1.0.zip" target="_blank">Скачать проект ZIP</a> | <a href="https://github.com/knastnt/meshtest/releases/download/v1.0/meshtest-0.0.1-SNAPSHOT.jar" target="_blank">Скачать JAR</a>
+     🎮 <a href="https://meshtest-knastnt.herokuapp.com/" target="_blank">Показать Демо (login:user password:1)</a>
+      <br> 🎁 <a href="https://github.com/knastnt/meshtest/archive/v1.0.zip" target="_blank">Скачать проект ZIP</a>
+      <br> ☘ <a href="https://github.com/knastnt/meshtest/releases/download/v1.0/meshtest-0.0.1-SNAPSHOT.jar" target="_blank">Скачать JAR</a>
   </strong>
-</p>
+
+
+---
 
 **Задание:** <a href="https://docs.google.com/document/d/1FKiNwuKPcfVhAa0p6ipLIlyT8uTrIIo8Ii_UfgmW5GQ/edit" target="_blank">https://docs.google.com/document/d/1FKiNwuKPcfVhAa0p6ipLIlyT8uTrIIo8Ii_UfgmW5GQ/edit</a>
 
@@ -53,16 +59,8 @@
 
 
 
-## Folder Structure
+## Структура проекта
 
-```
-├── model/                      # каталог с Entity
-├── repository/                 # интерфейсы репозиториев
-├── util/                       # утильные классы
-├── web/                        # классы непосредственно относящиеся к web взаимодействию        
-├── MeshtestApplication.java/   # главный класс приложения
-└── WebSecurityConfig.java      # файл настроек Security
-```
 
 ```
 ├── model/                          # каталог с Entity

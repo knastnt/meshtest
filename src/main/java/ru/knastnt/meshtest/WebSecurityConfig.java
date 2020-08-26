@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticated()
                     .and()
                 .formLogin()
-                    .defaultSuccessUrl(ProfileRestController.REST_URL, true)
+                    .defaultSuccessUrl("/swagger-ui/index.html", true)
                     .and()
                 .httpBasic()
                     .and()

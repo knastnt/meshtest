@@ -2,6 +2,7 @@ package ru.knastnt.meshtest.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Column;
@@ -35,6 +36,7 @@ public class Profile {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY) //Чтобы JSON не парсился сюда. Да, в принципе и без этого created = new Date()
     @JsonFormat(shape = JsonFormat.Shape.NUMBER) //Unix epoch time in milliseconds
+    @ApiModelProperty(dataType = "java.lang.Long")
     private Date created = new Date();
 
     public void setId(Long id) {

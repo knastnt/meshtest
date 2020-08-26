@@ -4,22 +4,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.knastnt.meshtest.model.Profile;
 import ru.knastnt.meshtest.repository.CrudProfileRepository;
-import ru.knastnt.meshtest.util.exception.ErrorInfo;
 
 import javax.validation.Valid;
-import java.net.BindException;
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import static ru.knastnt.meshtest.util.ExceptionUtil.checkNotFound;
 
@@ -36,7 +28,7 @@ public class ProfileRestController {
 
     @PostMapping(value = "/set", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<Map<String, Long>> set(@RequestBody @Valid Profile profile) throws DataIntegrityViolationException {
+    public ResponseEntity<Map<String, Integer>> set(@RequestBody @Valid Profile profile) throws DataIntegrityViolationException {
 
 //        if (profile.getId() != null) throw new DataIntegrityViolationException("Id создаваемого профиля не должен быть указан");
 
@@ -46,7 +38,7 @@ public class ProfileRestController {
             throw new DataIntegrityViolationException("такой емаил уже есть");
         }
 
-        Map<String, Long> result = new HashMap<>();
+        Map<String, Integer> result = new HashMap<>();
         result.put("idUser", profile.getId());
         return ResponseEntity.ok(result);
     }
@@ -62,7 +54,7 @@ public class ProfileRestController {
     }
 
     @GetMapping("/{id}")
-    public Profile get(@PathVariable long id) {
+    public Profile get(@PathVariable int id) {
 //        return checkNotFound(crudProfileRepository.getOne(id), "id = " + id); извлекает прокси, а потом проблемы с сериализацией
         return checkNotFound(crudProfileRepository.findById(id).orElse(null), "id = " + id);
     }

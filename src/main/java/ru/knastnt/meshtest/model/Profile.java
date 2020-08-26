@@ -22,7 +22,7 @@ public class Profile {
     //Когда будет функционал Update, то нужно будет это убрать. Сейчас это тут только для того чтобы Swagger в POST set
     // не показывал id. Похоже иначе его заставить это делать нельзя (https://github.com/springfox/springfox/issues/895)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    protected Long id;
+    protected Integer id;
 
     private String name;
 
@@ -39,11 +39,11 @@ public class Profile {
     @ApiModelProperty(dataType = "java.lang.Long")
     private Date created = new Date();
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

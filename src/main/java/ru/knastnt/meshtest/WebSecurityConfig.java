@@ -21,6 +21,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .cors().disable()
+                .csrf()
+                .ignoringAntMatchers(ProfileRestController.REST_URL + "/*")
+                .and()
             .authorizeRequests()
                 .anyRequest()
                     .authenticated()
